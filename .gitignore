@@ -10,13 +10,17 @@ venv/
 # Env
 .env
 
-# Data & models (volumineux / générés)
+# Data brute (volumineuse / non versionnée)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
-models/*.joblib
-models/*.json
+
+# Les artefacts du modèle entraîné (models/*.joblib, models/*.json) sont
+# volontairement COMMITÉS dans le repo (donc PAS ignorés ici). Sans backend
+# de stockage externe ou d'étape d'entraînement dans le cloud, l'hébergement
+# gratuit (Render, etc.) ne peut servir que ce qui est présent dans l'image
+# Docker construite depuis le repo Git. Voir README > Déploiement.
 
 # Notebooks
 .ipynb_checkpoints/

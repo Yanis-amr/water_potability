@@ -135,7 +135,6 @@ copy .env.example .env
 ## Entraînement du modèle
 
 ```bash
-cd ..
 python -m src.train
 ```
 
@@ -219,7 +218,7 @@ Requête :
   "ph": 7.2,
   "hardness": 180,
   "tds": 250,
-  "chlorine": 8,
+  "chloramines": 8,
   "sulfate": 340,
   "conductivity": 450,
   "organic_carbon": 12,
@@ -321,6 +320,32 @@ pytest
 ```
 
 La configuration Black/Ruff/Pytest est centralisée dans `pyproject.toml`.
+
+---
+
+## Déploiement gratuit (Render)
+
+Voir le guide détaillé fourni séparément pour la marche à suivre complète.
+Résumé :
+
+1. Les artefacts du modèle entraîné (`models/*.joblib`, `models/*.json`)
+   sont commités dans le repo Git — l'hébergement gratuit ne ré-entraîne
+   pas le modèle dans le cloud.
+2. **Backend** : Render > New > Web Service > Docker, branché sur ce repo.
+   Variables d'environnement à renseigner : `OPENAI_API_KEY`,
+   `OPENAI_BASE_URL`, `OPENAI_MODEL`, `CORS_ORIGINS`.
+3. **Frontend** : Render > New > Static Site, build command
+   `cd frontend && npm install && npm run build`, publish directory
+   `frontend/dist`, variable d'environnement `VITE_API_URL` pointée vers
+   l'URL du backend.
+4. Un fichier `render.yaml` (Blueprint) est fourni à la racine pour
+   automatiser cette création si souhaité.
+
+**Limites du gratuit à connaître** : le service backend s'endort après 15
+minutes d'inactivité (premier appel après le réveil : 30-60 secondes de
+latence), et dispose de 512 Mo de RAM seulement — d'où l'usage de
+`requirements-prod.txt` (dépendances allégées) plutôt que
+`requirements.txt` complet pour l'image Docker.
 
 ---
 

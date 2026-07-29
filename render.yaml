@@ -1,0 +1,44 @@
+# Render Blueprint — déploiement optionnel "en un clic".
+#
+# Usage : sur https://dashboard.render.com, "New" > "Blueprint", sélectionner
+# ce repo Git. Render lit ce fichier et crée les deux services décrits
+# ci-dessous. Il faudra quand même renseigner manuellement OPENAI_API_KEY
+# (secret, jamais commité) dans le dashboard après la création.
+#
+# Ce fichier est un raccourci : la création manuelle des deux services via
+# le dashboard (voir README > Déploiement gratuit) reste tout à fait
+# valable et plus pédagogique pour comprendre chaque option.
+
+services:
+  - type: web
+    name: water-potability-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false # à renseigner manuellement dans le dashboard (secret)
+      - key: OPENAI_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta/openai/
+      - key: OPENAI_MODEL
+        value: gemini-flash-latest
+      - key: CORS_ORIGINS
+        value: https://water-potability-frontend.onrender.com
+      - key: LOG_LEVEL
+        value: INFO
+
+  - type: web
+    name: water-potability-frontend
+    runtime: static
+    plan: free
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://water-potability-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
