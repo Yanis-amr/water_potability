@@ -1,0 +1,34 @@
+[
+  {
+    "model_name": "Logistic Regression",
+    "accuracy": 0.9238,
+    "kappa": 0.184160246345062,
+    "sensitivity": 0.13328956007879186,
+    "specificity": 0.9889592466309466,
+    "auc": 0.8908131281811168
+  },
+  {
+    "model_name": "Logistic Regression pondérée",
+    "accuracy": 0.78495,
+    "kappa": 0.29025119002152255,
+    "sensitivity": 0.845042678923178,
+    "specificity": 0.7799967527195973,
+    "auc": 0.8907559862804001
+  },
+  {
+    "model_name": "LASSO",
+    "accuracy": 0.78525,
+    "kappa": 0.2906459303836779,
+    "sensitivity": 0.845042678923178,
+    "specificity": 0.7803214807598636,
+    "auc": 0.8907546359120998
+  },
+  {
+    "model_name": "SVM RBF",
+    "accuracy": 0.91855,
+    "kappa": 0.6044827617854304,
+    "sensitivity": 0.9704530531845043,
+    "specificity": 0.9142717973697029,
+    "auc": 0.9834834854043488
+  }
+]
